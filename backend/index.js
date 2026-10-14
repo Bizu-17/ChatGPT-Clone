@@ -185,6 +185,9 @@ const cors = require("cors");
 
 const db = require("./db/db.config");
 
+const { migrate } =
+  require("./db/migrate");
+
 const mainRouter =
   require("./src/app/main.route");
 
@@ -378,6 +381,12 @@ const startServer = async () => {
     );
 
     connection.release();
+
+    await migrate();
+
+    console.log(
+      "Database schema is up to date"
+    );
 
     app.listen(
       PORT,
